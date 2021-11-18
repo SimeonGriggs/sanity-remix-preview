@@ -4,6 +4,7 @@ import { useLoaderData } from "remix";
 import { getClient } from "~/lib/sanity/getClient";
 import { filterDataToSingleItem } from "~/lib/sanity/filterDataToSingleItem";
 import Preview from "~/components/Preview";
+import { PortableText, urlFor } from "~/lib/sanity/helpers";
 
 export async function loader({ request, params }) {
   const requestUrl = new URL(request?.url);
@@ -48,6 +49,18 @@ export default function Movie() {
       ) : null}
       {/* When working with draft content, optional chain _everything_ */}
       {movie?.title ? <h1>{movie.title}</h1> : null}
+      {movie?.poster ? (
+        <img
+          loading="lazy"
+          src={urlFor(movie.poster).width(400).height(200)}
+          width="400"
+          height="200"
+          alt={movie?.title ?? ``}
+        />
+      ) : null}
+      {movie?.overview?.length ? (
+        <PortableText blocks={movie?.overview} />
+      ) : null}
     </div>
   );
 }
