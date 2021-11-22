@@ -11,3 +11,8 @@ footer {
   color: #ccc;
   padding-top: 80px;
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}

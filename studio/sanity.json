@@ -4,7 +4,7 @@
     "name": "Movies"
   },
   "api": {
-    "projectId": "d6fvc1pc",
+    "projectId": "",
     "dataset": "production"
   },
   "plugins": [
@@ -17,9 +17,7 @@
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [
