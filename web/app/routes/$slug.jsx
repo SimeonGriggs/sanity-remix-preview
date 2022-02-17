@@ -30,7 +30,7 @@ export async function loader({ request, params }) {
 export default function Movie() {
   let { initialData, preview, query, queryParams } = useLoaderData();
 
-  // If `preview` mode is active, its component update this state for us
+  // If `preview` mode is active, the <Preview /> component will update page data
   const [data, setData] = useState(initialData);
 
   // Bonus, a helper function checks the returned documents
@@ -58,8 +58,10 @@ export default function Movie() {
           alt={movie?.title ?? ``}
         />
       ) : null}
-      {movie?.overview?.length ? (
-        <PortableText blocks={movie?.overview} />
+      {movie?.overview?.length > 0 ? (
+        <div style={{maxWidth: `20rem`, margin: `0 auto`, lineHeight: 1.5}}>
+          <PortableText value={movie?.overview} />
+        </div>
       ) : null}
     </div>
   );

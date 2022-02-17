@@ -1,10 +1,10 @@
 import imageUrlBuilder from '@sanity/image-url'
-import SanityPortableText from '@sanity/block-content-to-react'
+import {PortableText as PortableTextComponent} from '@portabletext/react'
 
 import {config} from './config'
 
 export const urlFor = (source) => imageUrlBuilder(config).image(source)
 
-export function PortableText({blocks = []}) {
-  return <SanityPortableText serializers={{}} {...config} blocks={blocks} />
+export function PortableText(props) {
+  return <PortableTextComponent {...props} />
 }
