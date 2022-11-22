@@ -1,4 +1,10 @@
-# Sanity.io + Remix with Live Preview
+# There's a better way to do live preview!
+
+👉 **[Check out this all-new Sanity Studio v3 + Remix starter](https://github.com/SimeonGriggs/remix-sanity-studio-v3)**
+
+---
+
+# Sanity.io (v2) + Remix with Live Preview
 
 This is a simplified version of querying and live previewing Sanity data from within a Remix website.
 
