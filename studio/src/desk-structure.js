@@ -13,6 +13,9 @@ export const getDefaultDocumentNode = ({schemaType}) => {
         .component(Iframe)
         .options({
           url: (doc) => resolveProductionUrl(doc),
+          reload: {
+            button: true,
+          },
         })
         .title('Preview'),
     ])

@@ -1,3 +1,4 @@
 studio/dist/*
-web/.next
-web/out
+web/.cache
+web/build
+web/public
