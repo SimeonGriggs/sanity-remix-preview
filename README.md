@@ -6,4 +6,4 @@ This is the simplest version of querying and live previewing Sanity data from wi
 
 ## Looking for a more complete example?
 
-👉 [Check out this all-new Sanity Studio v3 + Remix starter](https://github.com/SimeonGriggs/remix-sanity-studio-v3)
+👉 [Check out this more feature complete Sanity Studio v3 + Remix template](https://github.com/SimeonGriggs/remix-sanity-template)
