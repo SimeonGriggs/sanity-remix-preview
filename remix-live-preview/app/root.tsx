@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -8,11 +8,9 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "New Remix App",
-  viewport: "width=device-width,initial-scale=1",
-});
+export const meta: V2_MetaFunction = () => {
+  return [{ title: "New Remix App" }];
+};
 
 export default function App() {
   return (
@@ -20,9 +18,11 @@ export default function App() {
       <head>
         <Meta />
         <Links />
-        <script src="https://cdn.tailwindcss.com?plugins=typography" />        
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <script src="https://cdn.tailwindcss.com?plugins=typography" />
       </head>
-      <body>
+      <body className="bg-white p-4">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
