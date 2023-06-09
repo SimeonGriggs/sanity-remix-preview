@@ -12,6 +12,9 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}
           .component(Iframe)
           .options({
             url: `http://localhost:3000/resource/preview`,
+            reload: {
+              button: true
+            }
           })
           .title('Preview'),
       ])

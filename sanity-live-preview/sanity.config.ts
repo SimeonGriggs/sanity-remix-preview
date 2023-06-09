@@ -8,7 +8,7 @@ export default defineConfig({
   name: 'default',
   title: 'Sanity Live Preview',
 
-  projectId: '5eif70g2',
+  projectId: 'z2iyc6ve',
   dataset: 'production',
 
   plugins: [
