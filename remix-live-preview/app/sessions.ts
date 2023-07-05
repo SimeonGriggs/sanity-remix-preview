@@ -6,7 +6,7 @@ const {getSession, commitSession, destroySession} = createCookieSessionStorage({
   cookie: {
     name: '__session',
     sameSite: 'lax',
-    secrets: ["s3cret1"],
+    secrets: ['s3cr3ts'],
   },
 })
 
