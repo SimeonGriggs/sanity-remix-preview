@@ -1,22 +1,31 @@
-// ./app/lib/sanity.ts
-
 import { createClient } from "@sanity/client";
-import imageUrlBuilder from "@sanity/image-url";
+import type { SanityClient } from "@sanity/client";
 
-// copy these from your Studio's sanity.config.ts
-export const projectId = "z2iyc6ve";
+// Copy these from your Studio's sanity.config.ts
+export const projectId = "vzq3sg7o";
 export const dataset = "production";
-export const apiVersion = "2023-06-01";
+export const apiVersion = "2023-07-01";
 
-// only use a token to return drafts if preview mode is active
-export const getClient = (preview = false) =>
-  createClient({
+export function getClient(preview?: { token?: string }): SanityClient {
+  const client = createClient({
     projectId,
     dataset,
     apiVersion,
-    useCdn: !preview, // API for preview mode, otherwise CDN
-    token: preview ? process.env.SANITY_READ_TOKEN : undefined,
+    useCdn: true,
+    perspective: "published",
   });
-
-// helper function for generating image URLs
-export const builder = imageUrlBuilder({ projectId, dataset });
+  if (preview) {
+    if (!preview.token) {
+      throw new Error(
+        "Attempted to activate Preview but a token was not provided"
+      );
+    }
+    return client.withConfig({
+      token: preview.token,
+      useCdn: false,
+      ignoreBrowserTokenWarning: true,
+      perspective: "previewDrafts",
+    });
+  }
+  return client;
+}

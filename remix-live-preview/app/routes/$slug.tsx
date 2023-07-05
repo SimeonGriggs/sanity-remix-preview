@@ -1,44 +1,28 @@
 // ./app/routes/$slug.tsx
 
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import type { SanityDocument } from "@sanity/client";
-import { GroqStoreProvider } from "@sanity/preview-kit/groq-store";
-import ExitPreview from "~/components/ExitPreview";
-
 import Post from "~/components/Post";
-
-import { getClient, dataset, projectId } from "~/lib/sanity";
+import PostPreview from "~/components/PostPreview";
+import { postQuery } from "~/lib/queries";
+import { getClient } from "~/lib/sanity";
 import { getSession } from "~/sessions";
 
-export const loader = async ({ params, request }: LoaderArgs) => {
-  const query = `*[_type == "post" && slug.current == $slug][0]`;
+export const loader: LoaderFunction = async ({
+  request,
+  params,
+}: LoaderArgs) => {
   const session = await getSession(request.headers.get("Cookie"));
-  const preview = session.get("preview");
+  const token = session.get("preview");
+  const preview = token ? { token } : undefined;
 
-  const post: SanityDocument[] = await getClient(preview).fetch(query, params);
+  const post = await getClient(preview).fetch(postQuery, params);
 
-  return {
-    post,
-    preview,
-    query: preview ? query : null,
-    params: preview ? params : null,
-  };
+  return { post, preview };
 };
 
 export default function PostRoute() {
-  const { preview, query, params, post } = useLoaderData();
+  const { post, preview } = useLoaderData();
 
-  const children = <Post post={post} query={query} params={params} />;
-
-  return preview ? (
-    <GroqStoreProvider projectId={projectId} dataset={dataset}>
-      <>
-        {children}
-        <ExitPreview />
-      </>
-    </GroqStoreProvider>
-  ) : (
-    children
-  );
+  return preview?.token ? <PostPreview post={post} /> : <Post post={post} />;
 }
