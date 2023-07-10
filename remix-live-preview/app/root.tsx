@@ -17,7 +17,8 @@ const PreviewProvider = lazy(() => import("~/components/PreviewProvider"));
 
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
   const session = await getSession(request.headers.get("Cookie"));
-  const preview = session.get("preview");
+  const token = session.get("preview");
+  const preview = token ? { token } : undefined;
 
   return { preview };
 };
