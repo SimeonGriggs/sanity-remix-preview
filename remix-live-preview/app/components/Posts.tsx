@@ -11,9 +11,8 @@ export default function Posts({ posts }: { posts: SanityDocument[] }) {
           <Link
             key={post._id}
             to={post.slug.current}
-            className="p-4 hover:bg-blue-50"
           >
-            <h2>{post.title}</h2>
+            <h2 className="p-4 hover:bg-blue-50">{post.title}</h2>
           </Link>
         ))
       ) : (

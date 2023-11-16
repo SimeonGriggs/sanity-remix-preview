@@ -1,28 +1,29 @@
 // ./app/routes/$slug.tsx
 
-import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import type { SanityDocument } from "@sanity/client";
+
 import Post from "~/components/Post";
-import PostPreview from "~/components/PostPreview";
-import { postQuery } from "~/lib/queries";
-import { getClient } from "~/lib/sanity";
-import { getSession } from "~/sessions";
+import { useQuery } from "~/sanity/loader";
+import { loadQuery } from "~/sanity/loader.server";
+import { POST_QUERY } from "~/sanity/queries";
 
-export const loader: LoaderFunction = async ({
-  request,
-  params,
-}: LoaderArgs) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const token = session.get("preview");
-  const preview = token ? { token } : undefined;
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  const initial = await loadQuery<SanityDocument>(POST_QUERY, params);
 
-  const post = await getClient(preview).fetch(postQuery, params);
-
-  return { post, preview };
+  return { initial, query: POST_QUERY, params };
 };
 
 export default function PostRoute() {
-  const { post, preview } = useLoaderData();
+  const { initial, query, params } = useLoaderData<typeof loader>();
+  const { data, loading } = useQuery<typeof initial.data>(query, params, {
+    initial,
+  });
 
-  return preview?.token ? <PostPreview post={post} /> : <Post post={post} />;
+  if (loading && !data) {
+    return <div>Loading...</div>;
+  }
+
+  return data ? <Post post={data} /> : null;
 }

@@ -3,7 +3,8 @@
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import type { SanityDocument } from "@sanity/client";
-import { projectId, dataset } from "~/lib/sanity";
+
+import { projectId, dataset } from "~/sanity/projectDetails";
 
 const builder = imageUrlBuilder({ projectId, dataset });
 
@@ -19,7 +20,7 @@ export default function Post({ post }: { post: SanityDocument }) {
           src={builder.image(mainImage).width(300).height(300).quality(80).url()}
           width={300}
           height={300}
-          alt={title}
+          alt={mainImage.alt || ''}
         />
       ) : null}
       {body ? <PortableText value={body} /> : null}
