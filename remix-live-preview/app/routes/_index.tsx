@@ -1,29 +1,29 @@
 // ./app/routes/_index.tsx
 
 import { useLoaderData } from "@remix-run/react";
-
-import { getClient } from "~/lib/sanity";
+import type { SanityDocument } from "@sanity/client";
 import Posts from "~/components/Posts";
-import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
-import { getSession } from "~/sessions";
-import { postsQuery } from "~/lib/queries";
-import PostsPreview from "~/components/PostsPreview";
+import { useQuery } from "~/sanity/loader";
+import { loadQuery } from "~/sanity/loader.server";
+import { POSTS_QUERY } from "~/sanity/queries";
 
-export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const token = session.get("preview");
-  const preview = token ? { token } : undefined;
-  const posts = await getClient(preview).fetch(postsQuery);
+export const loader = async () => {
+  const initial = await loadQuery<SanityDocument[]>(POSTS_QUERY);
 
-  return { posts, preview };
+  return { initial, query: POSTS_QUERY, params: {} };
 };
 
 export default function Index() {
-  const { posts, preview } = useLoaderData();
+  const { initial, query, params } = useLoaderData<typeof loader>();
+  const { data, loading } = useQuery<typeof initial.data>(query, params, {
+    initial,
+  });
 
-  return preview?.token ? (
-    <PostsPreview posts={posts} />
-  ) : (
-    <Posts posts={posts} />
-  );
+  // `data` should contain the initial data from the loader
+  // `loading` will only be true when Visual Editing is enabled
+  if (loading && !data) {
+    return <div>Loading...</div>;
+  }
+
+  return data ? <Posts posts={data} /> : null;
 }
