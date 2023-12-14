@@ -1,6 +1,6 @@
 # Sanity Studio + Remix with Live Preview
 
-This is the simplest version of querying Sanity content into a Remix application with visual editing and live preview inside Sanity Studio using [Presentation](https://www.sanity.io/docs/presentation).
+This is the simplest version of querying Sanity content into a Remix application with visual editing and interactive live preview inside Sanity Studio using [Presentation](https://www.sanity.io/docs/presentation).
 
 [See the companion Guide](https://sanity.io/guides/remix-run-live-preview) for a step-by-step walkthrough of this setup.
 
