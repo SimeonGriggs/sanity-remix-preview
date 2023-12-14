@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 
 import { useLiveMode } from "~/sanity/loader";
 import { client } from "~/sanity/client";
-import { studioUrl } from "~/sanity/projectDetails";
 
 export default function VisualEditing() {
   const navigateRemix = useNavigate();
@@ -17,7 +16,6 @@ export default function VisualEditing() {
     // When displayed inside an iframe
     if (window.parent !== window.self) {
       const disable = enableOverlays({
-        allowStudioOrigin: studioUrl,
         zIndex: 999999,
         history: {
           subscribe: (navigate) => {
@@ -50,7 +48,7 @@ export default function VisualEditing() {
   }, [location.hash, location.pathname, location.search]);
 
   // Enable live queries from the specified studio origin URL
-  useLiveMode({ allowStudioOrigin: studioUrl, client });
+  useLiveMode({ client });
 
   return null;
 }
