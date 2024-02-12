@@ -1,4 +1,4 @@
-import { createClient } from "@sanity/client/stega";
+import { createClient } from "@sanity/client";
 import { stegaEnabled, projectId, dataset, studioUrl } from "./projectDetails";
 
 // Do not import this into client-side components unless lazy-loaded
