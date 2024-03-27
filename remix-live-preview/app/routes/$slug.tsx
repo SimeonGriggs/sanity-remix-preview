@@ -3,14 +3,20 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { SanityDocument } from "@sanity/client";
+import { useQuery } from "@sanity/react-loader";
 
 import Post from "~/components/Post";
-import { useQuery } from "~/sanity/loader";
 import { loadQuery } from "~/sanity/loader.server";
+import { studioUrl } from "~/sanity/projectDetails";
 import { POST_QUERY } from "~/sanity/queries";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const initial = await loadQuery<SanityDocument>(POST_QUERY, params);
+  const initial = await loadQuery<SanityDocument>(POST_QUERY, params, {
+    perspective: process.env.SANITY_STUDIO_STEGA_ENABLED ? 'previewDrafts' : 'published',
+    stega: process.env.SANITY_STUDIO_STEGA_ENABLED ? {
+      enabled: true, studioUrl
+    } : false
+  });
 
   return { initial, query: POST_QUERY, params };
 };

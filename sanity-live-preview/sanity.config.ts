@@ -1,5 +1,5 @@
 import {defineConfig} from 'sanity'
-import {deskTool} from 'sanity/desk'
+import {structureTool} from 'sanity/structure'
 import {presentationTool} from '@sanity/presentation'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
@@ -13,7 +13,7 @@ export default defineConfig({
   dataset: 'production',
 
   plugins: [
-    deskTool(),
+    structureTool(),
     presentationTool({
       previewUrl: 'http://localhost:3000',
       locate

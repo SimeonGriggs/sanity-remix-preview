@@ -8,9 +8,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import { Suspense, lazy } from "react";
-
-const LiveVisualEditing = lazy(() => import("~/components/LiveVisualEditing"));
+import { VisualEditing } from "@sanity/visual-editing/remix";
 
 export const loader = () => {
   return json({
@@ -37,17 +35,13 @@ export default function App() {
       </head>
       <body className="bg-white">
         <Outlet />
+        {ENV.SANITY_STUDIO_STEGA_ENABLED ? <VisualEditing /> : null}
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(ENV)}`,
           }}
         />
-        {ENV.SANITY_STUDIO_STEGA_ENABLED ? (
-          <Suspense>
-            <LiveVisualEditing />
-          </Suspense>
-        ) : null}
         <Scripts />
         <LiveReload />
       </body>
