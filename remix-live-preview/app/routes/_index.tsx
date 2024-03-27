@@ -2,13 +2,28 @@
 
 import { useLoaderData } from "@remix-run/react";
 import type { SanityDocument } from "@sanity/client";
+import { useQuery } from "@sanity/react-loader";
 import Posts from "~/components/Posts";
-import { useQuery } from "~/sanity/loader";
 import { loadQuery } from "~/sanity/loader.server";
+import { studioUrl } from "~/sanity/projectDetails";
 import { POSTS_QUERY } from "~/sanity/queries";
 
 export const loader = async () => {
-  const initial = await loadQuery<SanityDocument[]>(POSTS_QUERY);
+  const initial = await loadQuery<SanityDocument[]>(
+    POSTS_QUERY,
+    {},
+    {
+      perspective: process.env.SANITY_STUDIO_STEGA_ENABLED
+        ? "previewDrafts"
+        : "published",
+      stega: process.env.SANITY_STUDIO_STEGA_ENABLED
+        ? {
+            enabled: true,
+            studioUrl,
+          }
+        : false,
+    }
+  );
 
   return { initial, query: POSTS_QUERY, params: {} };
 };
