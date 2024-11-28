@@ -1,22 +1,26 @@
 import {defineConfig} from 'sanity'
-import {deskTool} from 'sanity/desk'
-import {presentationTool} from '@sanity/presentation'
+import {structureTool} from 'sanity/structure'
+import {presentationTool} from 'sanity/presentation'
 import {visionTool} from '@sanity/vision'
-import {schemaTypes} from './schemas'
-import { locate } from './presentation/locate'
+import {schemaTypes} from './schemaTypes'
+import {resolve} from './presentation/resolve'
 
 export default defineConfig({
   name: 'default',
-  title: 'Sanity',
+  title: 'Sanity Live Preview',
 
-  projectId: '79w8op0f',
+  projectId: 'g2ha6iy5',
   dataset: 'production',
 
   plugins: [
-    deskTool(),
+    structureTool(),
     presentationTool({
-      previewUrl: 'http://localhost:3000',
-      locate
+      resolve,
+      previewUrl: {
+        previewMode: {
+          enable: 'http://localhost:5173/resource/preview/enable',
+        },
+      },
     }),
     visionTool(),
   ],
